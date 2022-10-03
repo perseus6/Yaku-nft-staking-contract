@@ -1,0 +1,25 @@
+[package]
+name = "nft-staking"
+version = "0.1.0"
+description = "Created with Anchor"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "nft_staking"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = []
+
+[profile.release]
+overflow-checks = true
+
+[dependencies]
+anchor-lang = {version = "0.25.0", features = ["init-if-needed"]}
+anchor-spl = "0.25.0"
+metaplex-token-metadata = { version = "0.0.1", features = ["no-entrypoint"] }
+spl-token = "3.2.0"
