@@ -31,6 +31,23 @@ pub struct InitializeGlobal<'info> {
 
 #[derive(Accounts)]
 #[instruction(global_bump: u8)]
+pub struct UpdateAdmin<'info> {
+    #[account(mut)]
+    pub admin: Signer<'info>,
+
+    #[account(
+        mut,
+        seeds = [
+          global_authority.name.as_ref(),
+          GLOBAL_AUTHORITY_SEED.as_ref()
+        ],
+        bump = global_bump,
+    )]
+    pub global_authority: Account<'info, GlobalPool>,
+}
+
+#[derive(Accounts)]
+#[instruction(global_bump: u8)]
 pub struct UpdateGlobal<'info> {
     #[account(mut)]
     pub admin: Signer<'info>,
@@ -133,7 +150,7 @@ pub struct WithdrawNftFromFixed<'info> {
     #[account(
         mut,
         constraint = user_token_account.mint == *nft_mint.to_account_info().key,
-        constraint = user_token_account.owner == *owner.key,
+        constraint = user_token_account.owner == *vault_pda.to_account_info().key,
     )]
     pub user_token_account: Account<'info, TokenAccount>,
     

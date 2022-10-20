@@ -15,7 +15,7 @@ use constants::*;
 use errors::*;
 use state::*;
 
-declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
+declare_id!("HakYS4S2zDAH54hH9L1dAbfXLhiAS8gEJcdpJcmJ6Uqv");
 
 #[program]
 pub mod nft_staking {
@@ -32,7 +32,6 @@ pub mod nft_staking {
         normal_rate: u64,
         lock_durations: Vec<u8>,
         lock_rates: Vec<u64>,
-        reward_per_day: u64,
     ) -> Result<()> {
         let global_authority = &mut ctx.accounts.global_authority;
         global_authority.name = global_name;
@@ -45,7 +44,21 @@ pub mod nft_staking {
         global_authority.normal_rate = normal_rate;
         global_authority.lock_durations = lock_durations;
         global_authority.lock_rates = lock_rates;
-        global_authority.reward_per_day = reward_per_day;
+        Ok(())
+    }
+
+    pub fn update_admin(
+        ctx: Context<UpdateAdmin>,
+        global_bump: u8,
+        new_admin: Pubkey,
+    ) -> Result<()> {
+        let global_authority = &mut ctx.accounts.global_authority;
+        require!(
+            ctx.accounts.admin.key() == global_authority.admin,
+            StakingError::InvalidAdmin
+        );
+        global_authority.admin = new_admin;
+
         Ok(())
     }
 
@@ -59,7 +72,6 @@ pub mod nft_staking {
         normal_rate: u64,
         lock_durations: Vec<u8>,
         lock_rates: Vec<u64>,
-        reward_per_day: u64,
     ) -> Result<()> {
         let global_authority = &mut ctx.accounts.global_authority;
         require!(
@@ -73,7 +85,6 @@ pub mod nft_staking {
         global_authority.normal_rate = normal_rate;
         global_authority.lock_durations = lock_durations;
         global_authority.lock_rates = lock_rates;
-        global_authority.reward_per_day = reward_per_day;
         Ok(())
     }
 
@@ -238,7 +249,7 @@ pub mod nft_staking {
         let mut fixed_pool = ctx.accounts.user_fixed_pool.load_mut()?;
         let reward: u64 = fixed_pool.claim_reward_all(timestamp)?;
         msg!("Reward: {}", reward);
-        if ctx.accounts.reward_vault.amount < 1000_000_000 + reward {
+        if ctx.accounts.reward_vault.amount < reward {
             return Err(StakingError::LackLamports.into());
         }
         let global_authority = &ctx.accounts.global_authority;
@@ -273,7 +284,7 @@ pub mod nft_staking {
             timestamp,
         )?;
         msg!("Reward: {}", reward);
-        if ctx.accounts.reward_vault.amount < 1000_000_000 + reward {
+        if ctx.accounts.reward_vault.amount < reward {
             return Err(StakingError::LackLamports.into());
         }
         let global_authority = &ctx.accounts.global_authority;

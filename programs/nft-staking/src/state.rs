@@ -16,11 +16,10 @@ pub struct GlobalPool {
     pub normal_rate: u64,
     pub lock_durations: Vec<u8>,
     pub lock_rates: Vec<u64>,
-    pub reward_per_day: u64
 }
 
 impl GlobalPool {
-  pub const LEN: usize = (8 + 10) + 32 + 32 + 32 + 8 + (8 + 8 * 5) + (8 + (10 + 8) * 5) + 8 + (1 * 3 + 8) + (8 * 3 + 8) + 8;
+  pub const LEN: usize = (8 + 10) + 32 + 32 + 32 + 8 + (8 + 8 * 5) + (8 + (10 + 8) * 5) + 8 + (1 * 3 + 8) + (8 * 3 + 8);
 }
 
 #[zero_copy]
@@ -83,12 +82,7 @@ impl UserPool {
                   last_reward_time = self.items[index].stake_time;
               }
 
-              if self.items[index].model == 1 && now < self.items[index].lock_time {
-                  reward =
-                      (self.items[index].rate * (now - last_reward_time) / DAY * 75 / 100) as u64;
-              } else {
-                  reward = (self.items[index].rate * (now - last_reward_time) / DAY) as u64;
-              }
+            reward = (self.items[index].rate * (now - last_reward_time) / DAY) as u64;
 
               // remove nft
               if i != self.item_count - 1 {
@@ -126,12 +120,12 @@ impl UserPool {
               // if self.items[index].model == 3 {
               //     reward = (self.items[index].rate * (now - last_reward_time) /DAY) as u64;
               // }
-              if self.items[index].model == 1 && now < self.items[index].lock_time {
-                  reward =
-                      (self.items[index].rate * (now - last_reward_time) / DAY * 75 / 100) as u64;
-              } else {
-                  reward = (self.items[index].rate * (now - last_reward_time) / DAY) as u64;
-              }
+            //   if self.items[index].model == 1 && now < self.items[index].lock_time {
+            //       reward =
+            //           (self.items[index].rate * (now - last_reward_time) / DAY * 75 / 100) as u64;
+            //   } else {
+                reward = (self.items[index].rate * (now - last_reward_time) / DAY) as u64;
+            //   }
               self.items[index].reward_time = now;
           }
       }
@@ -147,13 +141,13 @@ impl UserPool {
           if last_reward_time < self.items[index].stake_time {
               last_reward_time = self.items[index].stake_time;
           }
-          let mut reward: u64 = 0;
-          if self.items[index].model == 1 && now < self.items[index].lock_time {
-              reward =
-                  (self.items[index].rate * (now - last_reward_time) / DAY * 75 / 100) as u64;
-          } else {
-              reward = (self.items[index].rate * (now - last_reward_time) / DAY) as u64;
-          }
+        //   let mut reward: u64 = 0;
+        //   if self.items[index].model == 1 && now < self.items[index].lock_time {
+        //       reward =
+        //           (self.items[index].rate * (now - last_reward_time) / DAY * 75 / 100) as u64;
+        //   } else {
+        let reward = (self.items[index].rate * (now - last_reward_time) / DAY) as u64;
+        //   }
           total_reward += reward;
           self.items[index].reward_time = now; //Super added this
       }
