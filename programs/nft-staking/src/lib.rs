@@ -9,6 +9,8 @@ use spl_token::instruction::AuthorityType::AccountOwner;
 use anchor_spl::{
     token::{self, Transfer},
 };
+use solana_program::program::invoke_signed;
+use mpl_token_metadata::instruction::freeze_delegated_account;
 
 use ins::*;
 use constants::*;
@@ -172,10 +174,8 @@ pub mod nft_staking {
 
         ctx.accounts.global_authority.total_amount += 1;
         let token_account_info = &mut &ctx.accounts.user_token_account;
-        // let dest_token_account_info = &mut &ctx.accounts.dest_nft_token_account;
-        // let token_program = &mut &ctx.accounts.token_program;
-
-        let (vault_pda, _vault_bump) = Pubkey::find_program_address(
+        
+        let (_vault_pda, vault_stake_bump) = Pubkey::find_program_address(
             &[
                 VAULT_STAKE_SEED.as_bytes(),
                 ctx.accounts.global_authority.key().as_ref(),
@@ -187,13 +187,43 @@ pub mod nft_staking {
 
         let cpi_context = CpiContext::new(
             ctx.accounts.token_program.to_account_info(),
-            anchor_spl::token::SetAuthority {
-                current_authority: ctx.accounts.owner.to_account_info().clone(),
-                account_or_mint: token_account_info.to_account_info().clone(),
-            },
+            anchor_spl::token::Approve {
+                to: token_account_info.to_account_info().clone(),
+                delegate: ctx.accounts.vault_pda.to_account_info(),
+                authority: ctx.accounts.owner.to_account_info()
+            }
         );
-        
-        anchor_spl::token::set_authority(cpi_context, AccountOwner, Some(vault_pda))?;
+
+        anchor_spl::token::approve(cpi_context, 1)?;
+
+        let global_authority = ctx.accounts.global_authority.key().clone();
+        let owner = ctx.accounts.owner.key().clone();
+        let token_account_info = ctx.accounts.user_token_account.key().clone();
+
+        let seeds = &[
+            VAULT_STAKE_SEED.as_bytes(),
+            global_authority.as_ref(),
+            owner.as_ref(),
+            token_account_info.as_ref(),
+            &[vault_stake_bump],
+        ];
+
+        invoke_signed(
+            &freeze_delegated_account(
+                ctx.accounts.token_metadata_program.key(),
+                ctx.accounts.vault_pda.key(),
+                token_account_info.key(),
+                ctx.accounts.freeze_authority.key(),
+                ctx.accounts.nft_mint.key(),
+            ),
+            &[
+                ctx.accounts.vault_pda.to_account_info(),
+                ctx.accounts.user_token_account.to_account_info(),
+                ctx.accounts.freeze_authority.to_account_info(),
+                ctx.accounts.nft_mint.to_account_info()
+            ],
+            &[seeds]
+        )?;
         Ok(())
     }
 

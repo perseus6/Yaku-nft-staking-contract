@@ -100,6 +100,14 @@ pub struct StakeNftToFixed<'info> {
 
     /// CHECK:
     pub nft_mint: AccountInfo<'info>,
+    
+    /// CHECK:
+    #[account(mut)]
+    pub vault_pda: AccountInfo<'info>,
+
+    /// CHECK:
+    pub freeze_authority: AccountInfo<'info>,
+
     /// CHECK:
     #[account(
         mut,

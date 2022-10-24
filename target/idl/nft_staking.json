@@ -200,6 +200,16 @@
           "isSigner": false
         },
         {
+          "name": "vaultPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "freezeAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "mintMetadata",
           "isMut": true,
           "isSigner": false
@@ -562,8 +572,5 @@
       "name": "InvaliedMetadata",
       "msg": "Invalid Metadata Address"
     }
-  ],
-  "metadata": {
-    "address": "HakYS4S2zDAH54hH9L1dAbfXLhiAS8gEJcdpJcmJ6Uqv"
-  }
+  ]
 }

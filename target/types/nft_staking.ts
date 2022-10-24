@@ -200,6 +200,16 @@ export type NftStaking = {
           "isSigner": false
         },
         {
+          "name": "vaultPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "freezeAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "mintMetadata",
           "isMut": true,
           "isSigner": false
@@ -763,6 +773,16 @@ export const IDL: NftStaking = {
         },
         {
           "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "freezeAuthority",
           "isMut": false,
           "isSigner": false
         },
