@@ -69,8 +69,7 @@
             "vec": "u64"
           }
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "updateAdmin",
@@ -95,8 +94,7 @@
           "name": "newAdmin",
           "type": "publicKey"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "updateGlobal",
@@ -151,8 +149,7 @@
             "vec": "u64"
           }
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "initializeFixedPool",
@@ -168,8 +165,7 @@
           "isSigner": true
         }
       ],
-      "args": [],
-      "returns": null
+      "args": []
     },
     {
       "name": "stakeNftToFixed",
@@ -205,7 +201,7 @@
           "isSigner": false
         },
         {
-          "name": "freezeAuthority",
+          "name": "edition",
           "isMut": false,
           "isSigner": false
         },
@@ -242,8 +238,7 @@
           "name": "model",
           "type": "u64"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "withdrawNftFromFixed",
@@ -269,6 +264,11 @@
           "isSigner": false
         },
         {
+          "name": "edition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "userTokenAccount",
           "isMut": true,
           "isSigner": false
@@ -282,6 +282,11 @@
           "name": "tokenProgram",
           "isMut": false,
           "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
         }
       ],
       "args": [
@@ -293,8 +298,7 @@
           "name": "vaultStakeBump",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "claimRewardAll",
@@ -335,8 +339,7 @@
           "name": "globalBump",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "claimReward",
@@ -382,8 +385,7 @@
           "name": "globalBump",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     }
   ],
   "accounts": [
@@ -572,5 +574,8 @@
       "name": "InvaliedMetadata",
       "msg": "Invalid Metadata Address"
     }
-  ]
+  ],
+  "metadata": {
+    "address": "D7JPrs29PJiRiPrRmgS3vDsmKT5CdQxn9mWoh65DVUUN"
+  }
 }

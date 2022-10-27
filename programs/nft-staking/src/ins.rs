@@ -106,7 +106,7 @@ pub struct StakeNftToFixed<'info> {
     pub vault_pda: AccountInfo<'info>,
 
     /// CHECK:
-    pub freeze_authority: AccountInfo<'info>,
+    pub edition: AccountInfo<'info>,
 
     /// CHECK:
     #[account(
@@ -154,17 +154,23 @@ pub struct WithdrawNftFromFixed<'info> {
         bump = vault_stake_bump,
     )]
     pub vault_pda: AccountInfo<'info>,
+    /// CHECK:
+    pub edition: AccountInfo<'info>,
 
     #[account(
         mut,
         constraint = user_token_account.mint == *nft_mint.to_account_info().key,
-        constraint = user_token_account.owner == *vault_pda.to_account_info().key,
+        constraint = user_token_account.owner == *owner.to_account_info().key,
     )]
     pub user_token_account: Account<'info, TokenAccount>,
     
     /// CHECK:
     pub nft_mint: AccountInfo<'info>,
     pub token_program: Program<'info, Token>,
+    // the token metadata program
+    /// CHECK:
+    #[account(constraint = token_metadata_program.key == &metaplex_token_metadata::ID)]
+    pub token_metadata_program: AccountInfo<'info>,
 }
 
 #[derive(Accounts)]

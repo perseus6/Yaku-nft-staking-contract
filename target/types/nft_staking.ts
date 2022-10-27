@@ -69,8 +69,7 @@ export type NftStaking = {
             "vec": "u64"
           }
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "updateAdmin",
@@ -95,8 +94,7 @@ export type NftStaking = {
           "name": "newAdmin",
           "type": "publicKey"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "updateGlobal",
@@ -151,8 +149,7 @@ export type NftStaking = {
             "vec": "u64"
           }
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "initializeFixedPool",
@@ -168,8 +165,7 @@ export type NftStaking = {
           "isSigner": true
         }
       ],
-      "args": [],
-      "returns": null
+      "args": []
     },
     {
       "name": "stakeNftToFixed",
@@ -205,7 +201,7 @@ export type NftStaking = {
           "isSigner": false
         },
         {
-          "name": "freezeAuthority",
+          "name": "edition",
           "isMut": false,
           "isSigner": false
         },
@@ -242,8 +238,7 @@ export type NftStaking = {
           "name": "model",
           "type": "u64"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "withdrawNftFromFixed",
@@ -269,6 +264,11 @@ export type NftStaking = {
           "isSigner": false
         },
         {
+          "name": "edition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "userTokenAccount",
           "isMut": true,
           "isSigner": false
@@ -282,6 +282,11 @@ export type NftStaking = {
           "name": "tokenProgram",
           "isMut": false,
           "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
         }
       ],
       "args": [
@@ -293,8 +298,7 @@ export type NftStaking = {
           "name": "vaultStakeBump",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "claimRewardAll",
@@ -335,8 +339,7 @@ export type NftStaking = {
           "name": "globalBump",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "claimReward",
@@ -382,8 +385,7 @@ export type NftStaking = {
           "name": "globalBump",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     }
   ],
   "accounts": [
@@ -646,8 +648,7 @@ export const IDL: NftStaking = {
             "vec": "u64"
           }
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "updateAdmin",
@@ -672,8 +673,7 @@ export const IDL: NftStaking = {
           "name": "newAdmin",
           "type": "publicKey"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "updateGlobal",
@@ -728,8 +728,7 @@ export const IDL: NftStaking = {
             "vec": "u64"
           }
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "initializeFixedPool",
@@ -745,8 +744,7 @@ export const IDL: NftStaking = {
           "isSigner": true
         }
       ],
-      "args": [],
-      "returns": null
+      "args": []
     },
     {
       "name": "stakeNftToFixed",
@@ -782,7 +780,7 @@ export const IDL: NftStaking = {
           "isSigner": false
         },
         {
-          "name": "freezeAuthority",
+          "name": "edition",
           "isMut": false,
           "isSigner": false
         },
@@ -819,8 +817,7 @@ export const IDL: NftStaking = {
           "name": "model",
           "type": "u64"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "withdrawNftFromFixed",
@@ -846,6 +843,11 @@ export const IDL: NftStaking = {
           "isSigner": false
         },
         {
+          "name": "edition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "userTokenAccount",
           "isMut": true,
           "isSigner": false
@@ -859,6 +861,11 @@ export const IDL: NftStaking = {
           "name": "tokenProgram",
           "isMut": false,
           "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
         }
       ],
       "args": [
@@ -870,8 +877,7 @@ export const IDL: NftStaking = {
           "name": "vaultStakeBump",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "claimRewardAll",
@@ -912,8 +918,7 @@ export const IDL: NftStaking = {
           "name": "globalBump",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "claimReward",
@@ -959,8 +964,7 @@ export const IDL: NftStaking = {
           "name": "globalBump",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     }
   ],
   "accounts": [
