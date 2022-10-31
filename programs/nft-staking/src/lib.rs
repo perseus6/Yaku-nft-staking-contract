@@ -10,14 +10,15 @@ use anchor_spl::{
     token::{self, Transfer},
 };
 use solana_program::program::invoke_signed;
-use mpl_token_metadata::instruction::freeze_delegated_account;
+use mpl_token_metadata::instruction::{freeze_delegated_account, thaw_delegated_account};
 
 use ins::*;
 use constants::*;
 use errors::*;
 use state::*;
 
-declare_id!("HakYS4S2zDAH54hH9L1dAbfXLhiAS8gEJcdpJcmJ6Uqv");
+// declare_id!("FkheWVH8878fGH34oKRsCHgbE17ZruMDvqB8u4oPjtEA");
+declare_id!("D7JPrs29PJiRiPrRmgS3vDsmKT5CdQxn9mWoh65DVUUN");
 
 #[program]
 pub mod nft_staking {
@@ -213,13 +214,13 @@ pub mod nft_staking {
                 ctx.accounts.token_metadata_program.key(),
                 ctx.accounts.vault_pda.key(),
                 token_account_info.key(),
-                ctx.accounts.freeze_authority.key(),
+                ctx.accounts.edition.key(),
                 ctx.accounts.nft_mint.key(),
             ),
             &[
                 ctx.accounts.vault_pda.to_account_info(),
                 ctx.accounts.user_token_account.to_account_info(),
-                ctx.accounts.freeze_authority.to_account_info(),
+                ctx.accounts.edition.to_account_info(),
                 ctx.accounts.nft_mint.to_account_info()
             ],
             &[seeds]
@@ -257,19 +258,33 @@ pub mod nft_staking {
             &[vault_stake_bump],
         ];
         
+        invoke_signed(
+            &thaw_delegated_account(
+                ctx.accounts.token_metadata_program.key(),
+                ctx.accounts.vault_pda.key(),
+                token_account_info.key(),
+                ctx.accounts.edition.key(),
+                ctx.accounts.nft_mint.key(),
+            ),
+            &[
+                ctx.accounts.vault_pda.to_account_info(),
+                ctx.accounts.user_token_account.to_account_info(),
+                ctx.accounts.edition.to_account_info(),
+                ctx.accounts.nft_mint.to_account_info()
+            ],
+            &[seeds]
+        )?;
+
         let cpi_context = CpiContext::new(
             ctx.accounts.token_program.to_account_info(),
-            anchor_spl::token::SetAuthority {
-              current_authority: ctx.accounts.vault_pda.to_account_info().clone(),
-              account_or_mint: ctx.accounts.user_token_account.to_account_info().clone(),
-            },
-          );
-        
-        anchor_spl::token::set_authority(
-            cpi_context.with_signer(&[&seeds[..]]),
-            AccountOwner,
-            Some(ctx.accounts.owner.key()), 
-        )?;
+            anchor_spl::token::Revoke {
+                source: ctx.accounts.user_token_account.to_account_info(),
+                authority: ctx.accounts.owner.to_account_info()
+            }
+        );
+
+        anchor_spl::token::revoke(cpi_context)?;
+
         Ok(())
     }
 

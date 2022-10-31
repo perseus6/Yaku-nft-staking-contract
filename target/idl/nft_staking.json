@@ -205,7 +205,7 @@
           "isSigner": false
         },
         {
-          "name": "freezeAuthority",
+          "name": "edition",
           "isMut": false,
           "isSigner": false
         },
@@ -269,6 +269,11 @@
           "isSigner": false
         },
         {
+          "name": "edition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "userTokenAccount",
           "isMut": true,
           "isSigner": false
@@ -280,6 +285,11 @@
         },
         {
           "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
           "isMut": false,
           "isSigner": false
         }
@@ -613,8 +623,5 @@
       "name": "InvaliedMetadata",
       "msg": "Invalid Metadata Address"
     }
-  ],
-  "metadata": {
-    "address": "HakYS4S2zDAH54hH9L1dAbfXLhiAS8gEJcdpJcmJ6Uqv"
-  }
+  ]
 }

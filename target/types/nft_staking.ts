@@ -205,7 +205,7 @@ export type NftStaking = {
           "isSigner": false
         },
         {
-          "name": "freezeAuthority",
+          "name": "edition",
           "isMut": false,
           "isSigner": false
         },
@@ -269,6 +269,11 @@ export type NftStaking = {
           "isSigner": false
         },
         {
+          "name": "edition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "userTokenAccount",
           "isMut": true,
           "isSigner": false
@@ -280,6 +285,11 @@ export type NftStaking = {
         },
         {
           "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
           "isMut": false,
           "isSigner": false
         }
@@ -823,7 +833,7 @@ export const IDL: NftStaking = {
           "isSigner": false
         },
         {
-          "name": "freezeAuthority",
+          "name": "edition",
           "isMut": false,
           "isSigner": false
         },
@@ -887,6 +897,11 @@ export const IDL: NftStaking = {
           "isSigner": false
         },
         {
+          "name": "edition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "userTokenAccount",
           "isMut": true,
           "isSigner": false
@@ -898,6 +913,11 @@ export const IDL: NftStaking = {
         },
         {
           "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
           "isMut": false,
           "isSigner": false
         }
