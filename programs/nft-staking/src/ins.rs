@@ -241,3 +241,37 @@ pub struct ClaimReward<'info> {
 
     pub token_program: Program<'info, Token>,
 }
+
+#[derive(Accounts)]
+#[instruction(global_bump: u8)]
+pub struct WithdrawReward<'info>
+{
+    #[account(mut)]
+    pub claimer: Signer<'info>,
+
+    #[account(
+        mut,
+        seeds = [
+          global_authority.name.as_ref(),
+          GLOBAL_AUTHORITY_SEED.as_ref()
+        ],
+        bump = global_bump,
+    )]
+    pub global_authority: Account<'info, GlobalPool>,
+
+    #[account(
+        mut,
+        constraint = reward_vault.mint == global_authority.reward_token_mint,
+        constraint = reward_vault.owner == global_authority.key(),
+    )]
+    pub reward_vault: Box<Account<'info, TokenAccount>>,
+
+    #[account(
+        mut,
+        constraint = claimer_reward_account.mint == global_authority.reward_token_mint,
+        constraint = claimer_reward_account.owner == claimer.key(),
+    )]
+    pub claimer_reward_account: Account<'info, TokenAccount>,
+
+    pub token_program: Program<'info, Token>,
+}

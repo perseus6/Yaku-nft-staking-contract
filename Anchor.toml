@@ -1,13 +1,13 @@
 [features]
 seeds = false
-[programs.devnet]
+[programs.mainnet]
 nft_staking = "HakYS4S2zDAH54hH9L1dAbfXLhiAS8gEJcdpJcmJ6Uqv"
 
 [registry]
 url = "https://anchor.projectserum.com"
 
 [provider]
-cluster = "devnet"
+cluster = "mainnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]

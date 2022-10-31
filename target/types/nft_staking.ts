@@ -384,6 +384,47 @@ export type NftStaking = {
         }
       ],
       "returns": null
+    },
+    {
+      "name": "withdrawReward",
+      "accounts": [
+        {
+          "name": "claimer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "claimerRewardAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "globalBump",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ],
+      "returns": null
     }
   ],
   "accounts": [
@@ -958,6 +999,47 @@ export const IDL: NftStaking = {
         {
           "name": "globalBump",
           "type": "u8"
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "withdrawReward",
+      "accounts": [
+        {
+          "name": "claimer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "claimerRewardAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "globalBump",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
         }
       ],
       "returns": null

@@ -384,6 +384,47 @@
         }
       ],
       "returns": null
+    },
+    {
+      "name": "withdrawReward",
+      "accounts": [
+        {
+          "name": "claimer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "claimerRewardAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "globalBump",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ],
+      "returns": null
     }
   ],
   "accounts": [
@@ -572,5 +613,8 @@
       "name": "InvaliedMetadata",
       "msg": "Invalid Metadata Address"
     }
-  ]
+  ],
+  "metadata": {
+    "address": "HakYS4S2zDAH54hH9L1dAbfXLhiAS8gEJcdpJcmJ6Uqv"
+  }
 }

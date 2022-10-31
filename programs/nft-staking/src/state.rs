@@ -35,10 +35,10 @@ pub struct StakedNFT {
 
 #[account(zero_copy)]
 pub struct UserPool {
-    // 4064
+    // 12064
     pub owner: Pubkey,                           // 32
     pub item_count: u64,                         // 8
-    pub items: [StakedNFT; NFT_STAKE_MAX_COUNT], // (72 + 8) * 50 = 4000
+    pub items: [StakedNFT; NFT_STAKE_MAX_COUNT], // (72 + 8) * 150 = 12000
     pub reward_time: i64,                        // 8
     pub pending_reward: u64,                     // 8
 }
