@@ -73,8 +73,7 @@
           "name": "custodial",
           "type": "bool"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "updateAdmin",
@@ -99,8 +98,7 @@
           "name": "newAdmin",
           "type": "publicKey"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "updateGlobal",
@@ -159,8 +157,7 @@
           "name": "custodial",
           "type": "bool"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "initializeFixedPool",
@@ -176,8 +173,7 @@
           "isSigner": true
         }
       ],
-      "args": [],
-      "returns": null
+      "args": []
     },
     {
       "name": "stakeNftToFixed",
@@ -250,8 +246,7 @@
           "name": "model",
           "type": "u64"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "withdrawNftFromFixed",
@@ -311,8 +306,7 @@
           "name": "vaultStakeBump",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "claimRewardAll",
@@ -353,8 +347,7 @@
           "name": "globalBump",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "claimReward",
@@ -400,8 +393,7 @@
           "name": "globalBump",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "withdrawReward",
@@ -441,8 +433,7 @@
           "name": "amount",
           "type": "u64"
         }
-      ],
-      "returns": null
+      ]
     }
   ],
   "accounts": [
