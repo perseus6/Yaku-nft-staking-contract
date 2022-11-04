@@ -160,7 +160,7 @@ pub struct WithdrawNftFromFixed<'info> {
     #[account(
         mut,
         constraint = user_token_account.mint == *nft_mint.to_account_info().key,
-        constraint = user_token_account.owner == *owner.to_account_info().key,
+        // constraint = user_token_account.owner == *owner.to_account_info().key,
     )]
     pub user_token_account: Account<'info, TokenAccount>,
     

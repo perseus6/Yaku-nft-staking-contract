@@ -626,5 +626,8 @@
       "name": "InvaliedMetadata",
       "msg": "Invalid Metadata Address"
     }
-  ]
+  ],
+  "metadata": {
+    "address": "Gfoam73aJ33wjPk4cLBnE6JQZ62twXjuoQokqp7imBMr"
+  }
 }
