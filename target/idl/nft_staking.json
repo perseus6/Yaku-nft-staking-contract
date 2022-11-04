@@ -68,6 +68,10 @@
           "type": {
             "vec": "u64"
           }
+        },
+        {
+          "name": "custodial",
+          "type": "bool"
         }
       ]
     },
@@ -148,6 +152,10 @@
           "type": {
             "vec": "u64"
           }
+        },
+        {
+          "name": "custodial",
+          "type": "bool"
         }
       ]
     },
@@ -439,6 +447,10 @@
             "type": {
               "vec": "u64"
             }
+          },
+          {
+            "name": "custodial",
+            "type": "bool"
           }
         ]
       }
@@ -463,7 +475,7 @@
                 {
                   "defined": "StakedNFT"
                 },
-                50
+                150
               ]
             }
           },
@@ -574,8 +586,5 @@
       "name": "InvaliedMetadata",
       "msg": "Invalid Metadata Address"
     }
-  ],
-  "metadata": {
-    "address": "D7JPrs29PJiRiPrRmgS3vDsmKT5CdQxn9mWoh65DVUUN"
-  }
+  ]
 }

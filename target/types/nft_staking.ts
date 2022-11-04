@@ -68,6 +68,10 @@ export type NftStaking = {
           "type": {
             "vec": "u64"
           }
+        },
+        {
+          "name": "custodial",
+          "type": "bool"
         }
       ]
     },
@@ -148,6 +152,10 @@ export type NftStaking = {
           "type": {
             "vec": "u64"
           }
+        },
+        {
+          "name": "custodial",
+          "type": "bool"
         }
       ]
     },
@@ -439,6 +447,10 @@ export type NftStaking = {
             "type": {
               "vec": "u64"
             }
+          },
+          {
+            "name": "custodial",
+            "type": "bool"
           }
         ]
       }
@@ -463,7 +475,7 @@ export type NftStaking = {
                 {
                   "defined": "StakedNFT"
                 },
-                50
+                150
               ]
             }
           },
@@ -647,6 +659,10 @@ export const IDL: NftStaking = {
           "type": {
             "vec": "u64"
           }
+        },
+        {
+          "name": "custodial",
+          "type": "bool"
         }
       ]
     },
@@ -727,6 +743,10 @@ export const IDL: NftStaking = {
           "type": {
             "vec": "u64"
           }
+        },
+        {
+          "name": "custodial",
+          "type": "bool"
         }
       ]
     },
@@ -1018,6 +1038,10 @@ export const IDL: NftStaking = {
             "type": {
               "vec": "u64"
             }
+          },
+          {
+            "name": "custodial",
+            "type": "bool"
           }
         ]
       }
@@ -1042,7 +1066,7 @@ export const IDL: NftStaking = {
                 {
                   "defined": "StakedNFT"
                 },
-                50
+                150
               ]
             }
           },

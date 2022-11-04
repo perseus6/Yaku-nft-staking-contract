@@ -1,8 +1,7 @@
 [features]
 seeds = false
 [programs.devnet]
-#nft_staking = "FkheWVH8878fGH34oKRsCHgbE17ZruMDvqB8u4oPjtEA"
-nft_staking = "D7JPrs29PJiRiPrRmgS3vDsmKT5CdQxn9mWoh65DVUUN"
+nft_staking = "Gfoam73aJ33wjPk4cLBnE6JQZ62twXjuoQokqp7imBMr"
 
 [registry]
 url = "https://anchor.projectserum.com"

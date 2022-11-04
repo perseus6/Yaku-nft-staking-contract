@@ -17,8 +17,7 @@ use constants::*;
 use errors::*;
 use state::*;
 
-// declare_id!("FkheWVH8878fGH34oKRsCHgbE17ZruMDvqB8u4oPjtEA");
-declare_id!("D7JPrs29PJiRiPrRmgS3vDsmKT5CdQxn9mWoh65DVUUN");
+declare_id!("Gfoam73aJ33wjPk4cLBnE6JQZ62twXjuoQokqp7imBMr");
 
 #[program]
 pub mod nft_staking {
@@ -26,7 +25,7 @@ pub mod nft_staking {
 
     pub fn initialize_global(
         ctx: Context<InitializeGlobal>, 
-        global_bump: u8, 
+        _global_bump: u8, 
         global_name: String,
         nft_creator: Pubkey,
         reward_token_mint: Pubkey,
@@ -35,6 +34,7 @@ pub mod nft_staking {
         normal_rate: u64,
         lock_durations: Vec<u8>,
         lock_rates: Vec<u64>,
+        custodial: bool,
     ) -> Result<()> {
         let global_authority = &mut ctx.accounts.global_authority;
         global_authority.name = global_name;
@@ -47,12 +47,13 @@ pub mod nft_staking {
         global_authority.normal_rate = normal_rate;
         global_authority.lock_durations = lock_durations;
         global_authority.lock_rates = lock_rates;
+        global_authority.custodial = custodial;
         Ok(())
     }
 
     pub fn update_admin(
         ctx: Context<UpdateAdmin>,
-        global_bump: u8,
+        _global_bump: u8,
         new_admin: Pubkey,
     ) -> Result<()> {
         let global_authority = &mut ctx.accounts.global_authority;
@@ -67,7 +68,7 @@ pub mod nft_staking {
 
     pub fn update_global(
         ctx: Context<UpdateGlobal>, 
-        global_bump: u8, 
+        _global_bump: u8, 
         nft_creator: Pubkey,
         reward_token_mint: Pubkey,
         trait_rates: Vec<u64>,
@@ -75,6 +76,7 @@ pub mod nft_staking {
         normal_rate: u64,
         lock_durations: Vec<u8>,
         lock_rates: Vec<u64>,
+        custodial: bool,
     ) -> Result<()> {
         let global_authority = &mut ctx.accounts.global_authority;
         require!(
@@ -88,6 +90,7 @@ pub mod nft_staking {
         global_authority.normal_rate = normal_rate;
         global_authority.lock_durations = lock_durations;
         global_authority.lock_rates = lock_rates;
+        global_authority.custodial = custodial;
         Ok(())
     }
 
@@ -100,7 +103,7 @@ pub mod nft_staking {
     #[access_control(user(&ctx.accounts.user_fixed_pool, &ctx.accounts.owner))]
     pub fn stake_nft_to_fixed(
         ctx: Context<StakeNftToFixed>,
-        global_bump: u8,
+        _global_bump: u8,
         lock_period: u8,
         role: String,
         model: u64,
@@ -176,7 +179,7 @@ pub mod nft_staking {
         ctx.accounts.global_authority.total_amount += 1;
         let token_account_info = &mut &ctx.accounts.user_token_account;
         
-        let (_vault_pda, vault_stake_bump) = Pubkey::find_program_address(
+        let (vault_pda, vault_stake_bump) = Pubkey::find_program_address(
             &[
                 VAULT_STAKE_SEED.as_bytes(),
                 ctx.accounts.global_authority.key().as_ref(),
@@ -185,17 +188,6 @@ pub mod nft_staking {
             ],
             ctx.program_id
         );
-
-        let cpi_context = CpiContext::new(
-            ctx.accounts.token_program.to_account_info(),
-            anchor_spl::token::Approve {
-                to: token_account_info.to_account_info().clone(),
-                delegate: ctx.accounts.vault_pda.to_account_info(),
-                authority: ctx.accounts.owner.to_account_info()
-            }
-        );
-
-        anchor_spl::token::approve(cpi_context, 1)?;
 
         let global_authority = ctx.accounts.global_authority.key().clone();
         let owner = ctx.accounts.owner.key().clone();
@@ -209,29 +201,52 @@ pub mod nft_staking {
             &[vault_stake_bump],
         ];
 
-        invoke_signed(
-            &freeze_delegated_account(
-                ctx.accounts.token_metadata_program.key(),
-                ctx.accounts.vault_pda.key(),
-                token_account_info.key(),
-                ctx.accounts.edition.key(),
-                ctx.accounts.nft_mint.key(),
-            ),
-            &[
-                ctx.accounts.vault_pda.to_account_info(),
-                ctx.accounts.user_token_account.to_account_info(),
-                ctx.accounts.edition.to_account_info(),
-                ctx.accounts.nft_mint.to_account_info()
-            ],
-            &[seeds]
-        )?;
+        if ctx.accounts.global_authority.custodial == false {
+            let cpi_context = CpiContext::new(
+                ctx.accounts.token_program.to_account_info(),
+                anchor_spl::token::Approve {
+                    to: ctx.accounts.user_token_account.to_account_info().clone(),
+                    delegate: ctx.accounts.vault_pda.to_account_info(),
+                    authority: ctx.accounts.owner.to_account_info()
+                }
+            );
+    
+            anchor_spl::token::approve(cpi_context, 1)?;
+            invoke_signed(
+                &freeze_delegated_account(
+                    ctx.accounts.token_metadata_program.key(),
+                    ctx.accounts.vault_pda.key(),
+                    token_account_info.key(),
+                    ctx.accounts.edition.key(),
+                    ctx.accounts.nft_mint.key(),
+                ),
+                &[
+                    ctx.accounts.vault_pda.to_account_info(),
+                    ctx.accounts.user_token_account.to_account_info(),
+                    ctx.accounts.edition.to_account_info(),
+                    ctx.accounts.nft_mint.to_account_info()
+                ],
+                &[seeds]
+            )?;
+        } else {
+            let cpi_context = CpiContext::new(
+                ctx.accounts.token_program.to_account_info(),
+                anchor_spl::token::SetAuthority {
+                    current_authority: ctx.accounts.owner.to_account_info().clone(),
+                    account_or_mint: ctx.accounts.user_token_account.to_account_info().clone(),
+                },
+            );
+            
+            anchor_spl::token::set_authority(cpi_context, AccountOwner, Some(vault_pda))?;
+        }
+        
         Ok(())
     }
 
     #[access_control(user(&ctx.accounts.user_fixed_pool, &ctx.accounts.owner))]
     pub fn withdraw_nft_from_fixed(
         ctx: Context<WithdrawNftFromFixed>,
-        global_bump: u8,
+        _global_bump: u8,
         vault_stake_bump: u8,
     ) -> Result<()> {
         let timestamp = Clock::get()?.unix_timestamp;
@@ -257,33 +272,49 @@ pub mod nft_staking {
             token_account_info.as_ref(),
             &[vault_stake_bump],
         ];
-        
-        invoke_signed(
-            &thaw_delegated_account(
-                ctx.accounts.token_metadata_program.key(),
-                ctx.accounts.vault_pda.key(),
-                token_account_info.key(),
-                ctx.accounts.edition.key(),
-                ctx.accounts.nft_mint.key(),
-            ),
-            &[
-                ctx.accounts.vault_pda.to_account_info(),
-                ctx.accounts.user_token_account.to_account_info(),
-                ctx.accounts.edition.to_account_info(),
-                ctx.accounts.nft_mint.to_account_info()
-            ],
-            &[seeds]
-        )?;
 
-        let cpi_context = CpiContext::new(
-            ctx.accounts.token_program.to_account_info(),
-            anchor_spl::token::Revoke {
-                source: ctx.accounts.user_token_account.to_account_info(),
-                authority: ctx.accounts.owner.to_account_info()
-            }
-        );
-
-        anchor_spl::token::revoke(cpi_context)?;
+        if ctx.accounts.global_authority.custodial == false {
+            invoke_signed(
+                &thaw_delegated_account(
+                    ctx.accounts.token_metadata_program.key(),
+                    ctx.accounts.vault_pda.key(),
+                    token_account_info.key(),
+                    ctx.accounts.edition.key(),
+                    ctx.accounts.nft_mint.key(),
+                ),
+                &[
+                    ctx.accounts.vault_pda.to_account_info(),
+                    ctx.accounts.user_token_account.to_account_info(),
+                    ctx.accounts.edition.to_account_info(),
+                    ctx.accounts.nft_mint.to_account_info()
+                ],
+                &[seeds]
+            )?;
+    
+            let cpi_context = CpiContext::new(
+                ctx.accounts.token_program.to_account_info(),
+                anchor_spl::token::Revoke {
+                    source: ctx.accounts.user_token_account.to_account_info(),
+                    authority: ctx.accounts.owner.to_account_info()
+                }
+            );
+    
+            anchor_spl::token::revoke(cpi_context)?;
+        } else {
+            let cpi_context = CpiContext::new(
+                ctx.accounts.token_program.to_account_info(),
+                anchor_spl::token::SetAuthority {
+                  current_authority: ctx.accounts.vault_pda.to_account_info().clone(),
+                  account_or_mint: ctx.accounts.user_token_account.to_account_info().clone(),
+                },
+              );
+            
+            anchor_spl::token::set_authority(
+                cpi_context.with_signer(&[&seeds[..]]),
+                AccountOwner,
+                Some(ctx.accounts.owner.key()), 
+            )?;
+        }        
 
         Ok(())
     }
