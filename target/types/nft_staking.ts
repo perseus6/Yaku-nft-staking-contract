@@ -73,7 +73,8 @@ export type NftStaking = {
           "name": "custodial",
           "type": "bool"
         }
-      ]
+      ],
+      "returns": null
     },
     {
       "name": "updateAdmin",
@@ -98,7 +99,8 @@ export type NftStaking = {
           "name": "newAdmin",
           "type": "publicKey"
         }
-      ]
+      ],
+      "returns": null
     },
     {
       "name": "updateGlobal",
@@ -157,7 +159,8 @@ export type NftStaking = {
           "name": "custodial",
           "type": "bool"
         }
-      ]
+      ],
+      "returns": null
     },
     {
       "name": "initializeFixedPool",
@@ -173,7 +176,8 @@ export type NftStaking = {
           "isSigner": true
         }
       ],
-      "args": []
+      "args": [],
+      "returns": null
     },
     {
       "name": "stakeNftToFixed",
@@ -246,7 +250,8 @@ export type NftStaking = {
           "name": "model",
           "type": "u64"
         }
-      ]
+      ],
+      "returns": null
     },
     {
       "name": "withdrawNftFromFixed",
@@ -306,7 +311,8 @@ export type NftStaking = {
           "name": "vaultStakeBump",
           "type": "u8"
         }
-      ]
+      ],
+      "returns": null
     },
     {
       "name": "claimRewardAll",
@@ -347,7 +353,8 @@ export type NftStaking = {
           "name": "globalBump",
           "type": "u8"
         }
-      ]
+      ],
+      "returns": null
     },
     {
       "name": "claimReward",
@@ -393,7 +400,49 @@ export type NftStaking = {
           "name": "globalBump",
           "type": "u8"
         }
-      ]
+      ],
+      "returns": null
+    },
+    {
+      "name": "withdrawReward",
+      "accounts": [
+        {
+          "name": "claimer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "claimerRewardAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "globalBump",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ],
+      "returns": null
     }
   ],
   "accounts": [
@@ -664,7 +713,8 @@ export const IDL: NftStaking = {
           "name": "custodial",
           "type": "bool"
         }
-      ]
+      ],
+      "returns": null
     },
     {
       "name": "updateAdmin",
@@ -689,7 +739,8 @@ export const IDL: NftStaking = {
           "name": "newAdmin",
           "type": "publicKey"
         }
-      ]
+      ],
+      "returns": null
     },
     {
       "name": "updateGlobal",
@@ -748,7 +799,8 @@ export const IDL: NftStaking = {
           "name": "custodial",
           "type": "bool"
         }
-      ]
+      ],
+      "returns": null
     },
     {
       "name": "initializeFixedPool",
@@ -764,7 +816,8 @@ export const IDL: NftStaking = {
           "isSigner": true
         }
       ],
-      "args": []
+      "args": [],
+      "returns": null
     },
     {
       "name": "stakeNftToFixed",
@@ -837,7 +890,8 @@ export const IDL: NftStaking = {
           "name": "model",
           "type": "u64"
         }
-      ]
+      ],
+      "returns": null
     },
     {
       "name": "withdrawNftFromFixed",
@@ -897,7 +951,8 @@ export const IDL: NftStaking = {
           "name": "vaultStakeBump",
           "type": "u8"
         }
-      ]
+      ],
+      "returns": null
     },
     {
       "name": "claimRewardAll",
@@ -938,7 +993,8 @@ export const IDL: NftStaking = {
           "name": "globalBump",
           "type": "u8"
         }
-      ]
+      ],
+      "returns": null
     },
     {
       "name": "claimReward",
@@ -984,7 +1040,49 @@ export const IDL: NftStaking = {
           "name": "globalBump",
           "type": "u8"
         }
-      ]
+      ],
+      "returns": null
+    },
+    {
+      "name": "withdrawReward",
+      "accounts": [
+        {
+          "name": "claimer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "claimerRewardAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "globalBump",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ],
+      "returns": null
     }
   ],
   "accounts": [

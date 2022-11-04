@@ -7,7 +7,7 @@ nft_staking = "Gfoam73aJ33wjPk4cLBnE6JQZ62twXjuoQokqp7imBMr"
 url = "https://anchor.projectserum.com"
 
 [provider]
-cluster = "devnet"
+cluster = "mainnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]

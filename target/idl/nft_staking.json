@@ -73,7 +73,8 @@
           "name": "custodial",
           "type": "bool"
         }
-      ]
+      ],
+      "returns": null
     },
     {
       "name": "updateAdmin",
@@ -98,7 +99,8 @@
           "name": "newAdmin",
           "type": "publicKey"
         }
-      ]
+      ],
+      "returns": null
     },
     {
       "name": "updateGlobal",
@@ -157,7 +159,8 @@
           "name": "custodial",
           "type": "bool"
         }
-      ]
+      ],
+      "returns": null
     },
     {
       "name": "initializeFixedPool",
@@ -173,7 +176,8 @@
           "isSigner": true
         }
       ],
-      "args": []
+      "args": [],
+      "returns": null
     },
     {
       "name": "stakeNftToFixed",
@@ -246,7 +250,8 @@
           "name": "model",
           "type": "u64"
         }
-      ]
+      ],
+      "returns": null
     },
     {
       "name": "withdrawNftFromFixed",
@@ -306,7 +311,8 @@
           "name": "vaultStakeBump",
           "type": "u8"
         }
-      ]
+      ],
+      "returns": null
     },
     {
       "name": "claimRewardAll",
@@ -347,7 +353,8 @@
           "name": "globalBump",
           "type": "u8"
         }
-      ]
+      ],
+      "returns": null
     },
     {
       "name": "claimReward",
@@ -393,7 +400,49 @@
           "name": "globalBump",
           "type": "u8"
         }
-      ]
+      ],
+      "returns": null
+    },
+    {
+      "name": "withdrawReward",
+      "accounts": [
+        {
+          "name": "claimer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "claimerRewardAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "globalBump",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ],
+      "returns": null
     }
   ],
   "accounts": [

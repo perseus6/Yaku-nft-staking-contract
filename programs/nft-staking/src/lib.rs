@@ -384,6 +384,29 @@ pub mod nft_staking {
 
         Ok(())
     }
+
+    pub fn withdraw_reward(ctx: Context<WithdrawReward>, global_bump: u8, amount: u64) -> Result<()> {
+        let global_authority = &ctx.accounts.global_authority;
+        let name = global_authority.name.as_bytes();
+        let seeds = &[
+            name,
+            GLOBAL_AUTHORITY_SEED.as_bytes(), 
+            &[global_bump]
+        ];
+        let signer = &[&seeds[..]];
+        let token_program = ctx.accounts.token_program.to_account_info();
+        let cpi_accounts = Transfer {
+            from: ctx.accounts.reward_vault.to_account_info(),
+            to: ctx.accounts.claimer_reward_account.to_account_info(),
+            authority: ctx.accounts.global_authority.to_account_info(),
+        };
+        token::transfer(
+            CpiContext::new_with_signer(token_program.clone(), cpi_accounts, signer),
+            amount,
+        )?;
+
+        Ok(())
+    }
 }
 
 // Access control modifiers
