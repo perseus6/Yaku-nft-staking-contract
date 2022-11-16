@@ -1,9 +1,7 @@
 
 .anchor
 .DS_Store
-target/bpfel-unknown-unknown
-target/release
-target/debug
+target
 **/*.rs.bk
 node_modules
 test-ledger
