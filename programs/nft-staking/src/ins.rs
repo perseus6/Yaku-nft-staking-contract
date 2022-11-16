@@ -281,3 +281,12 @@ pub struct WithdrawReward<'info>
 
     pub token_program: Program<'info, Token>,
 }
+
+#[derive(Accounts)]
+pub struct CloseUserFixedPool<'info> {
+    #[account(mut)]
+    pub owner: SystemAccount<'info>,
+
+    #[account(mut)]
+    pub user_fixed_pool: AccountLoader<'info, UserPool>,
+}

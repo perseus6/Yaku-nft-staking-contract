@@ -407,6 +407,21 @@ pub mod nft_staking {
 
         Ok(())
     }
+
+    pub fn close_user_fixed_pool(ctx: Context<CloseUserFixedPool>) -> Result<()> {
+        let fixed_pool = ctx.accounts.user_fixed_pool.load()?;
+        if fixed_pool.item_count == 0 {
+            let dest_account_info = ctx.accounts.owner.to_account_info();
+            let source_account_info = ctx.accounts.user_fixed_pool.to_account_info();
+            let dest_starting_lamports = dest_account_info.lamports();
+            **dest_account_info.lamports.borrow_mut() = dest_starting_lamports
+                .checked_add(source_account_info.lamports())
+                .unwrap();
+            **source_account_info.lamports.borrow_mut() = 0;
+            // source_account_info.fill(0);
+        }
+        Ok(())
+    }
 }
 
 // Access control modifiers
